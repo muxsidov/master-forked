@@ -15,3 +15,7 @@ htmlcov/
 .tox/
 .coverage
 .coverage.*
+
+# Certificates
+examples/server/cert.pem
+examples/server/key.pem

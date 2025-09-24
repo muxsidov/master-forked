@@ -127,6 +127,18 @@ def authenticate_begin():
 
     return jsonify(dict(options))
 
+@app.route("/api/delegate/begin", methods=["POST"])
+def delegate_begin():
+    # Alice submits Bob’s ID
+    # Generate delegation credential bound to Bob’s ID
+    # Encode as QR
+    # Return QR (or QR image) to Alice
+
+@app.route("/api/delegate/accept", methods=["POST"])
+def delegate_accept():
+    # Bob scans QR and POSTs payload
+    # Server verifies Alice’s delegation
+    # Stores delegated credential under Bob’s account 
 
 @app.route("/api/authenticate/complete", methods=["POST"])
 def authenticate_complete():
