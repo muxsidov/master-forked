@@ -12,3 +12,5 @@ Delegator Token:
 Relying Party:
 ./server/python-fido2/fido2
 ./server/python-fido2/examples/server/server/server.py
+
+Original author: https://github.com/yeohweizhu/FIDO-Delegation/tree/main
