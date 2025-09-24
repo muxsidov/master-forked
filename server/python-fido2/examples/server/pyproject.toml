@@ -9,11 +9,17 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.9,<4.0"
 Flask = "^2.0"
 fido2 = {path = "../.."}
 ecpy = "^1.2.5"
 pyasn1 = "^0.5.0"
+requests = "^2.32.4"
+asn1 = "^3.1.0"
+pem = "^23.1.0"
+asn1crypto = "^1.5.1"
+numpy = "^1.26"
+randomgen = "^2.1.1"
 
 [tool.poetry.dev-dependencies]
 

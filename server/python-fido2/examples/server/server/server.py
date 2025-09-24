@@ -63,10 +63,10 @@ fido2.features.webauthn_json_mapping.enabled = True
 app = Flask(__name__, static_url_path="")
 app.secret_key = os.urandom(32)  # Used for session.
 
-# rpid = "localhost"
-# origin = "https://localhost"
-rpid = "fido-delegation-demo.eastus.cloudapp.azure.com"
-origin = "https://fido-delegation-demo.eastus.cloudapp.azure.com"
+rpid = "localhost"
+origin = "https://localhost"
+# rpid = "fido-delegation-demo.eastus.cloudapp.azure.com"
+# origin = "https://fido-delegation-demo.eastus.cloudapp.azure.com"
 rp = PublicKeyCredentialRpEntity(name="Demo server", id=rpid)
 server = Fido2Server(rp)
 
@@ -308,4 +308,7 @@ def benchmark_delegation():
 def main():
     print(__doc__)
     # benchmark_delegation()
-    app.run(host='0.0.0.0', port=5000, ssl_context=("/home/azureuser/fullchain.pem","/home/azureuser/privkey.pem"), debug=False)
+    # app.run(host='0.0.0.0', port=5000, debug=True)
+
+    # app.run(host='0.0.0.0', port=5000, ssl_context=("/home/azureuser/fullchain.pem","/home/azureuser/privkey.pem"), debug=False)
+    app.run(host="0.0.0.0", ssl_context=("cert.pem", "key.pem"), port=5000, debug=False)
