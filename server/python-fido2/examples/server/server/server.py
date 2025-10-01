@@ -48,6 +48,7 @@ import asn1
 import pem
 import math 
 import time
+import datetime
 from asn1crypto.core import Sequence
 from pyasn1.codec.ber import decoder as pyasn1decoder
 from cryptography import x509
@@ -75,6 +76,8 @@ server = Fido2Server(rp)
 credentials = []
 credentials_userprofile = {}
 
+# in-memory storage for demo purposes
+delegations = {}
 
 @app.route("/")
 def index():
@@ -129,16 +132,49 @@ def authenticate_begin():
 
 @app.route("/api/delegate/begin", methods=["POST"])
 def delegate_begin():
-    # Alice submits Bob’s ID
-    # Generate delegation credential bound to Bob’s ID
-    # Encode as QR
-    # Return QR (or QR image) to Alice
+    req = request.get_json()
+    delegatee_id = req.get("delegatee_id")
+    # TODO: generate delegation credential here
+    return jsonify({"status": "ok", "delegatee_id": delegatee_id})
+    # data = request.json
+    # delegator = data.get("delegator")
+    # delegatee = data.get("delegatee")
+
+    # if not delegator or not delegatee:
+    #     return jsonify({"error": "delegator and delegatee required"}), 400
+
+    # # generate fake delegated key (random bytes, base64)
+    # delegated_key = base64.urlsafe_b64encode(os.urandom(16)).decode()
+
+    # delegation_object = {
+    #     "delegator": delegator,
+    #     "delegatee": delegatee,
+    #     "delegated_key": delegated_key,
+    #     "expiry": (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).isoformat() + "Z"
+    # }
+
+    # # store temporarily
+    # delegations[delegated_key] = delegation_object
+
+    # return jsonify(delegation_object), 200
 
 @app.route("/api/delegate/accept", methods=["POST"])
 def delegate_accept():
-    # Bob scans QR and POSTs payload
-    # Server verifies Alice’s delegation
-    # Stores delegated credential under Bob’s account 
+    data = request.json
+    delegated_key = data.get("delegated_key")
+
+    if not delegated_key:
+        return jsonify({"error": "delegated_key required"}), 400
+
+    if delegated_key not in delegations:
+        return jsonify({"error": "delegation not found"}), 404
+
+    delegation_object = delegations[delegated_key]
+
+    return jsonify({
+        "status": "accepted",
+        "delegation": delegation_object
+    }), 200
 
 @app.route("/api/authenticate/complete", methods=["POST"])
 def authenticate_complete():

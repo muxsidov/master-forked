@@ -182,6 +182,32 @@
             return "fail"
         }
 
+        async function delegateBegin(delegateeId) {
+
+            let btn = document.getElementById("delegateBtn");
+
+            const resp = await fetch("/api/delegate_begin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ delegatee_id: delegateeId })
+            });
+
+            if (!resp.ok) {
+                throw new Error("Server error: " + resp.status);
+            }
+
+            return await resp.json();
+        }
+
+        document.getElementById("delegateBtn").addEventListener("click", async () => {
+            try {
+                let result = await delegateBegin("Bob123"); // hardcode for now
+                document.getElementById("delegateResult").innerText =
+                    "Delegation created: " + JSON.stringify(result);
+            } catch (err) {
+                alert("Error: " + err);
+            }
+        });
 
         window.startreg = startreg
         window.startauth = startauth
@@ -252,6 +278,10 @@
         
         <div class="content" style="background-color: #FF5722;" id="auth_btn" onclick="startauth()">
             <p class="no-highlight">Authenticate</p>
+        </div>
+        
+        <div class="content" style="background-color: #FF5722;" id="delegateBtn" onclick="delegateBegin()">
+            <p class="no-highlight">Delegate FIDO QR</p>
         </div>
 
         <div class="divider">
