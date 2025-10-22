@@ -57,6 +57,7 @@
             }
         }
 
+        // TODO another intent cloud link
         async function startAppReg() {
                 // let url = "fidods://fido-delegation-demo.eastus.cloudapp.azure.com:5000/?challenge=1";
                 let url = "intent://fido-delegation-demo.eastus.cloudapp.azure.com?cmdgetfido=1#Intent;scheme=fidods;action=android.intent.action.MAIN;end";
@@ -114,7 +115,8 @@
             let chal = json.publicKey.challenge
     
 
-            let url = "intent://fido-delegation-demo.eastus.cloudapp.azure.com?challenge="+ json.publicKey.challenge +"#Intent;scheme=fidods;action=android.intent.action.MAIN;end";
+            // let url = "intent://fido-delegation-demo.eastus.cloudapp.azure.com?challenge="+ json.publicKey.challenge +"#Intent;scheme=fidods;action=android.intent.action.MAIN;end";
+            let url = "intent://10.0.2.2?challenge=" + json.publicKey.challenge + "#Intent;scheme=fidods;action=android.intent.action.MAIN;end";
             console.log(url);
             window.location.href = url;
 

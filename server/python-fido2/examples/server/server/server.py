@@ -64,8 +64,10 @@ fido2.features.webauthn_json_mapping.enabled = True
 app = Flask(__name__, static_url_path="")
 app.secret_key = os.urandom(32)  # Used for session.
 
+# rpid = "10.0.2.2"
+# origin = "https://10.0.2.2:5000"
 rpid = "localhost"
-origin = "https://localhost"
+origin = "http://localhost"
 # rpid = "fido-delegation-demo.eastus.cloudapp.azure.com"
 # origin = "https://fido-delegation-demo.eastus.cloudapp.azure.com"
 rp = PublicKeyCredentialRpEntity(name="Demo server", id=rpid)
@@ -253,7 +255,8 @@ def verify_attestation(att):
             break
     has_valid_root_cert = False
     root_cert_raw_bytes= cert_raw_arr[-1]
-    filename = "/home/azureuser/python-fido2/examples/server/server/rootcert.pem"
+    filename = "/home/mirzokhid/Masters/FIDO-Delegation/server/python-fido2/examples/server/cert.pem"
+    # filename = "/home/azureuser/python-fido2/examples/server/server/rootcert.pem"
     cert_obj = pem.parse_file(filename)
     for co in cert_obj:
         rootcert = x509.load_pem_x509_certificate(co.as_bytes())     
@@ -357,6 +360,7 @@ def main():
     print(__doc__)
     # benchmark_delegation()
     # app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', ssl_context=("cert.pem", "key.pem"), port=5000, debug=True)
 
     # app.run(host='0.0.0.0', port=5000, ssl_context=("/home/azureuser/fullchain.pem","/home/azureuser/privkey.pem"), debug=False)
-    app.run(host="0.0.0.0", ssl_context=("cert.pem", "key.pem"), port=5000, debug=False)
+    # app.run(host="0.0.0.0", ssl_context=("cert.pem", "key.pem"), port=5000, debug=False)
